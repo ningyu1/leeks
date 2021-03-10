@@ -114,8 +114,6 @@ public abstract class FundRefreshHandler extends DefaultTableModel {
                 double temp = 0.0d;
                 try {
                     String s = StringUtils.remove(value.toString(), '%');
-                    s = StringUtils.remove(s, "+");
-                    s = StringUtils.remove(s, "-");
                     s = StringUtils.remove(s, "↑");
                     s = StringUtils.remove(s, "↓");
                     temp = Double.parseDouble(s);

@@ -111,9 +111,13 @@ public abstract class FundRefreshHandler extends DefaultTableModel {
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                double temp = 0.0;
+                double temp = 0.0d;
                 try {
                     String s = StringUtils.remove(value.toString(), '%');
+                    s = StringUtils.remove(s, "+");
+                    s = StringUtils.remove(s, "-");
+                    s = StringUtils.remove(s, "↑");
+                    s = StringUtils.remove(s, "↓");
                     temp = Double.parseDouble(s);
                 } catch (Exception e) {
 
@@ -137,7 +141,6 @@ public abstract class FundRefreshHandler extends DefaultTableModel {
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
         };
-//        table.getColumn(getColumnName(2)).setCellRenderer(cellRenderer);
         int columnIndex = WindowUtils.getColumnIndexByName(columnNames, "估算涨跌");
         table.getColumn(getColumnName(columnIndex)).setCellRenderer(cellRenderer);
     }

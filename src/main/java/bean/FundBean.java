@@ -115,9 +115,9 @@ public class FundBean {
                 String gszzlStr = "--";
                 String gszzl = this.getGszzl();
                 if (gszzl != null) {
-                    gszzlStr = gszzl.startsWith("-") ? gszzl : "+" + gszzl;
+                    gszzlStr = gszzl.startsWith("-") ? (gszzl+"%↓") : ("+" + gszzl + "%↑");
                 }
-                return gszzlStr + "%";
+                return gszzlStr;
             case "更新时间":
                 String timeStr = this.getGztime();
                 if (timeStr == null) {

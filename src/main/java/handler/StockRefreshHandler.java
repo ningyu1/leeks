@@ -110,9 +110,13 @@ public abstract class StockRefreshHandler extends DefaultTableModel {
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                double temp = 0.0;
+                double temp = 0.0d;
                 try {
-                    String s = value.toString().replace("%", "");
+                    String s = StringUtils.remove(value.toString(), '%');
+                    s = StringUtils.remove(s, "+");
+                    s = StringUtils.remove(s, "-");
+                    s = StringUtils.remove(s, "↑");
+                    s = StringUtils.remove(s, "↓");
                     temp = Double.parseDouble(s);
                 } catch (Exception e) {
 

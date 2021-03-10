@@ -131,9 +131,9 @@ public class StockBean {
             case "涨跌幅":
                 String changePercentStr = "--";
                 if (this.getChangePercent() != null) {
-                    changePercentStr = this.getChangePercent().startsWith("-") ? this.getChangePercent() : "+" + this.getChangePercent();
+                    changePercentStr = this.getChangePercent().startsWith("-") ? (this.getChangePercent() + "%↓") : ("+" + this.getChangePercent() + "%↑");
                 }
-                return changePercentStr + "%";
+                return changePercentStr;
             case "最高价":
                 return this.getMax();
             case "最低价":

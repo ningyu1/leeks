@@ -33,7 +33,11 @@ public abstract class FundRefreshHandler extends DefaultTableModel {
             instance.setValue(WindowUtils.FUND_TABLE_HEADER_KEY, WindowUtils.FUND_TABLE_HEADER_VALUE);
         }
 
-        columnNames = Objects.requireNonNull(instance.getValue(WindowUtils.FUND_TABLE_HEADER_KEY)).split(",");
+        String[] configStr = Objects.requireNonNull(instance.getValue(WindowUtils.FUND_TABLE_HEADER_KEY)).split(",");
+        columnNames = new String[configStr.length];
+        for (int i = 0; i < configStr.length; i++) {
+            columnNames[i] = WindowUtils.remapPinYin(configStr[i]);
+        }
     }
 
 
@@ -60,14 +64,21 @@ public abstract class FundRefreshHandler extends DefaultTableModel {
         }
         TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(this);
         Comparator<Object> doubleComparator = (o1, o2) -> {
-            Double v1 = Double.parseDouble(StringUtils.remove((String) o1, '%'));
-            Double v2 = Double.parseDouble(StringUtils.remove((String) o2, '%'));
+            Double v1 = Double.parseDouble(getValue((String) o1));
+            Double v2 = Double.parseDouble(getValue((String) o2));
             return v1.compareTo(v2);
         };
         rowSorter.setComparator(2, doubleComparator);
         rowSorter.setComparator(3, doubleComparator);
         table.setRowSorter(rowSorter);
         columnColors(colorful);
+    }
+
+    private String getValue(String value) {
+        String s = StringUtils.remove(value.toString(), '%');
+        s = StringUtils.remove(s, "↑");
+        s = StringUtils.remove(s, "↓");
+        return s;
     }
 
     /**
@@ -113,9 +124,7 @@ public abstract class FundRefreshHandler extends DefaultTableModel {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 double temp = 0.0d;
                 try {
-                    String s = StringUtils.remove(value.toString(), '%');
-                    s = StringUtils.remove(s, "↑");
-                    s = StringUtils.remove(s, "↓");
+                    String s = getValue(value.toString());
                     temp = Double.parseDouble(s);
                 } catch (Exception e) {
 
